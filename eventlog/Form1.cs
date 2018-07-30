@@ -43,6 +43,7 @@ namespace eventlog
                 progressBar1.PerformStep();
             }
         }
+        
         private void button1_Click(object sender, EventArgs e)
         {
             FileopenDialog();
@@ -65,6 +66,24 @@ namespace eventlog
                 StreamReader sr = ReadFile(filePath, fileName);
                 MirReadToEnd(sr);
                 sr.Close();
+
+                BinaryReader rdr = new BinaryReader(File.Open(filePath + @"\" + fileName, FileMode.Open));
+                byte[] bytes = rdr.ReadBytes(150);
+                
+                for(int k = 0; k < 18; k++)
+                {
+                    dataGridView1.Columns.Add(k.ToString(), k.ToString());
+                }
+                for (int i = 0; i < 150; i++)
+                {
+                    Console.WriteLine(bytes[i]);
+                    dataGridView1.Rows.Add();
+                    dataGridView1[i/18, i%18].Value = bytes[i];
+                }
+                
+                
+
+                
             }
         }
     }
