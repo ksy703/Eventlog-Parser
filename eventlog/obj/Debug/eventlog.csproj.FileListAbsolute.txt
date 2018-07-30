@@ -1,0 +1,10 @@
+C:\Users\Honeywell\source\repos\eventlog\eventlog\bin\Debug\eventlog.exe.config
+C:\Users\Honeywell\source\repos\eventlog\eventlog\bin\Debug\eventlog.exe
+C:\Users\Honeywell\source\repos\eventlog\eventlog\bin\Debug\eventlog.pdb
+C:\Users\Honeywell\source\repos\eventlog\eventlog\obj\Debug\eventlog.csprojAssemblyReference.cache
+C:\Users\Honeywell\source\repos\eventlog\eventlog\obj\Debug\eventlog.Form1.resources
+C:\Users\Honeywell\source\repos\eventlog\eventlog\obj\Debug\eventlog.Properties.Resources.resources
+C:\Users\Honeywell\source\repos\eventlog\eventlog\obj\Debug\eventlog.csproj.GenerateResource.cache
+C:\Users\Honeywell\source\repos\eventlog\eventlog\obj\Debug\eventlog.csproj.CoreCompileInputs.cache
+C:\Users\Honeywell\source\repos\eventlog\eventlog\obj\Debug\eventlog.exe
+C:\Users\Honeywell\source\repos\eventlog\eventlog\obj\Debug\eventlog.pdb
