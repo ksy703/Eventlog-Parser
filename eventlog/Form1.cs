@@ -8,11 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Collections;
 
 namespace eventlog
 {
     public partial class Form1 : Form
     {
+        string fileName;
         public Form1()
         {
             InitializeComponent();
@@ -46,6 +48,7 @@ namespace eventlog
         
         private void button1_Click(object sender, EventArgs e)
         {
+            dataGridView1.Columns.Clear();
             FileopenDialog();
         }
         public void FileopenDialog()
@@ -58,33 +61,124 @@ namespace eventlog
             DialogResult dr = ofd.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                string fileName = ofd.SafeFileName;
+                fileName = ofd.SafeFileName;
                 string fileFullName = ofd.FileName;
                 string filePath = fileFullName.Replace(fileName, "");
                 textBox1.Text = fileFullName;
 
                 StreamReader sr = ReadFile(filePath, fileName);
                 MirReadToEnd(sr);
+
                 sr.Close();
 
                 BinaryReader rdr = new BinaryReader(File.Open(filePath + @"\" + fileName, FileMode.Open));
-                byte[] bytes = rdr.ReadBytes(150);
-                
-                for(int k = 0; k < 18; k++)
+                //byte[] bytes = rdr.ReadBytes(130);
+                byte[] bytes=new byte[200];
+                rdr.BaseStream.Position = 0; int i=0;
+                while(i<200)
+                {
+                    if (bytes[i] == 255)
+                    {
+                        break;
+                    }
+                    bytes[i] = rdr.ReadByte();
+                    i++;
+                }
+
+
+                BitArray myBytes = new BitArray(bytes);
+
+
+                for (int k = 0; k <200; k++)
                 {
                     dataGridView1.Columns.Add(k.ToString(), k.ToString());
                 }
-                for (int i = 0; i < 150; i++)
+                for (int r = 0; r < 200; r++)
                 {
-                    Console.WriteLine(bytes[i]);
                     dataGridView1.Rows.Add();
-                    dataGridView1[i/18, i%18].Value = bytes[i];
+                    
+                    dataGridView1[r%16, r/16].Value = bytes[r];
+                }
+                int cnt = 0;
+                foreach(int bytesvalue in bytes)
+                {
+                    string stringValue = Char.ConvertFromUtf32(bytesvalue);
+                    dataGridView1[cnt, 16].Value = stringValue;
+                    cnt++;
                 }
                 
-                
-
+                for (int k = 0; k < 1600; k++)
+                {
+                    Boolean b = myBytes[k];
+                    if (b == true)
+                    {
+                        dataGridView1[k / 8,15].Value += "1";
+                    }
+                    else
+                    {
+                        dataGridView1[k / 8,15].Value += "0";
+                    }
+                }
                 
             }
+        }
+        public void writeCSV(DataGridView gridIn, string outputFile)
+        {
+            //test to see if the DataGridView has any rows
+            if (gridIn.RowCount > 0)
+            {
+                string value = "";
+                DataGridViewRow dr = new DataGridViewRow();
+                StreamWriter swOut = new StreamWriter(outputFile);
+
+                //write header rows to csv
+                for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                {
+                    if (i > 0)
+                    {
+                        swOut.Write(",");
+                    }
+                    swOut.Write(gridIn.Columns[i].HeaderText);
+                }
+
+                swOut.WriteLine();
+
+                //write DataGridView rows to csv
+                for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
+                {
+                    if (j > 0)
+                    {
+                        swOut.WriteLine();
+                    }
+
+                    dr = gridIn.Rows[j];
+
+                    for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                    {
+                        if (i > 0)
+                        {
+                            swOut.Write(",");
+                        }
+                        if (dr.Cells[i].Value==null)
+                        {
+                            dr.Cells[i].Value = "";
+                        }
+                        value = dr.Cells[i].Value.ToString();
+                        //replace comma's with spaces
+                        value = value.Replace(',', ' ');
+                        //replace embedded newlines with spaces
+                        value = value.Replace(Environment.NewLine, " ");
+
+                        swOut.Write(value);
+                    }
+                }
+                swOut.Close();
+            }
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            writeCSV(dataGridView1, fileName+".csv");
+            MessageBox.Show("Converted successfully to *.csv format");
         }
     }
 }
