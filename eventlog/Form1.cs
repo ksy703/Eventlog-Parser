@@ -14,7 +14,7 @@ namespace eventlog
 {
     public partial class Form1 : Form
     {
-        string fileName;
+        string fileName;long l;
         public Form1()
         {
             InitializeComponent();
@@ -34,6 +34,7 @@ namespace eventlog
             if (!di.Exists) { return null; }
             FileInfo fi = new FileInfo(mir_directory + @"\" + mir_fileName);
             if (!fi.Exists) { return null; }
+            l = fi.Length;
             StreamReader sr = new StreamReader(mir_directory + @"\" + mir_fileName,Encoding.ASCII,false);
             return sr;
         }
@@ -41,7 +42,7 @@ namespace eventlog
         {
             if (sr != null)
             {
-                textBox1.Text = sr.ReadToEnd();
+                textBox1.Text += sr.ReadToEnd();
                 progressBar1.PerformStep();
             }
         }
@@ -50,6 +51,34 @@ namespace eventlog
         {
             dataGridView1.Columns.Clear();
             FileopenDialog();
+        }
+        public void SetUpDataGridView()
+        {
+            dataGridView1.ColumnCount = 12;
+            dataGridView1.Columns[0].Name = "Serial Number";
+            dataGridView1.Columns[1].Name = "Start Time";
+            dataGridView1.Columns[1].Width = 130;
+            dataGridView1.Columns[2].Name = "Event Type";
+            dataGridView1.Columns[3].Name = "Duration";
+            dataGridView1.Columns[4].Name = "H2S Status";
+            dataGridView1.Columns[5].Name = "H2S Peak (ppm)";
+            dataGridView1.Columns[6].Name = "CO Status";
+            dataGridView1.Columns[7].Name = "CO Peak (ppm)";
+            dataGridView1.Columns[8].Name = "O2 Status";
+            dataGridView1.Columns[9].Name = "O2 Peak (%Vol)";
+            dataGridView1.Columns[10].Name = "LEL Status";
+            dataGridView1.Columns[11].Name = "LEL Peak (%LEL)";
+        }
+        public string make_bit(Boolean b)
+        {
+            if (b == true)
+            {
+                return "1";
+            }
+            else
+            {
+                return "0";
+            }
         }
         public void FileopenDialog()
         {
@@ -65,59 +94,107 @@ namespace eventlog
                 string fileFullName = ofd.FileName;
                 string filePath = fileFullName.Replace(fileName, "");
                 textBox1.Text = fileFullName;
-
+                string sn="";
                 StreamReader sr = ReadFile(filePath, fileName);
                 MirReadToEnd(sr);
 
                 sr.Close();
-
                 BinaryReader rdr = new BinaryReader(File.Open(filePath + @"\" + fileName, FileMode.Open));
                 //byte[] bytes = rdr.ReadBytes(130);
-                byte[] bytes=new byte[200];
-                rdr.BaseStream.Position = 0; int i=0;
-                while(i<200)
-                {
-                    if (bytes[i] == 255)
-                    {
-                        break;
-                    }
-                    bytes[i] = rdr.ReadByte();
-                    i++;
-                }
-
-
-                BitArray myBytes = new BitArray(bytes);
-
-
-                for (int k = 0; k <200; k++)
-                {
-                    dataGridView1.Columns.Add(k.ToString(), k.ToString());
-                }
-                for (int r = 0; r < 200; r++)
-                {
-                    dataGridView1.Rows.Add();
-                    
-                    dataGridView1[r%16, r/16].Value = bytes[r];
-                }
-                int cnt = 0;
-                foreach(int bytesvalue in bytes)
-                {
-                    string stringValue = Char.ConvertFromUtf32(bytesvalue);
-                    dataGridView1[cnt, 16].Value = stringValue;
-                    cnt++;
-                }
+                byte[] Header_bytes=new byte[15];
+                byte[] info_bytes = new byte[18];
+                rdr.BaseStream.Position = 0; int i=0; int row = 0;
+                SetUpDataGridView();
                 
-                for (int k = 0; k < 1600; k++)
+                while (rdr.BaseStream.Position!=l)
                 {
-                    Boolean b = myBytes[k];
-                    if (b == true)
+                    Header_bytes[i] = rdr.ReadByte();
+                    if (i>0&&Char.ConvertFromUtf32(Header_bytes[i-1])=="S"&& Char.ConvertFromUtf32(Header_bytes[i]) == "N")
                     {
-                        dataGridView1[k / 8,15].Value += "1";
+                        rdr.ReadByte();
+                        byte[] bytes = rdr.ReadBytes(88);
+                        sn = "";
+                        for(int x = 0; x < 12; x++)
+                        {
+                            sn += Char.ConvertFromUtf32(bytes[x]);
+                        }
+                        
+                        info_bytes = rdr.ReadBytes(18);
+                        while (info_bytes[0] != 255)
+                        {
+                           
+                            BitArray myBytes = new BitArray(info_bytes);
+                            String[] info_bits = new String[18];
+                            info_bits[0] = make_bit(myBytes[7]);
+                            for(int k=1;k<=6;k++)
+                            {
+                                info_bits[1] = make_bit(myBytes[k]) + info_bits[1];
+                            }
+                            
+                            for(int k = 13; k <= 15; k++)
+                            {
+                                info_bits[2] = make_bit(myBytes[k]) + info_bits[2];
+                            }
+                            info_bits[2] = make_bit(myBytes[0])+info_bits[2];
+                            for (int k = 8; k <= 12;k++)
+                            {
+                                info_bits[3] = make_bit(myBytes[k]) + info_bits[3];
+                            }for(int k = 20; k <= 23; k++)
+                            {
+                                info_bits[4] = make_bit(myBytes[k]) + info_bits[4];
+                            }for(int k = 30; k < 32; k++)
+                            {
+                                info_bits[5] = make_bit(myBytes[k]) + info_bits[5];
+                            }
+                            for (int k = 16; k <= 19; k++)
+                            {
+                                info_bits[5] = make_bit(myBytes[k]) + info_bits[5];
+                            }for(int k = 24; k <= 29; k++)
+                            {
+                                info_bits[6] = make_bit(myBytes[k]) + info_bits[6];
+                            }
+                            int hour = Convert.ToInt32(info_bits[4], 2);
+                            if (info_bits[0].Equals("1"))
+                            {
+                                hour += 12;
+                            }
+                            string date_time = (2000+Convert.ToInt32(info_bits[1], 2))+"-"+(Convert.ToInt32(info_bits[2],2)).ToString("D2")+"-"+(Convert.ToInt32(info_bits[3],2)).ToString("D2")
+                            + " " + (hour).ToString("D2") + ":" + (Convert.ToInt32(info_bits[5],2)).ToString("D2") + ":" + (Convert.ToInt32(info_bits[6],2)).ToString("D2");
+
+                            dataGridView1.Rows.Add();
+                            dataGridView1[0, row].Value = sn;
+                            dataGridView1[2, row].Value = "Peak Exposure";
+                            dataGridView1[3, row].Value = info_bytes[5];
+                            dataGridView1[5, row].Value = info_bytes[8];
+                            dataGridView1[7, row].Value = info_bytes[11];
+                            dataGridView1[9, row].Value = (float)info_bytes[14] / 10;
+                            dataGridView1[11, row].Value = info_bytes[17];
+                            dataGridView1[1, row].Value = date_time;
+                            
+                            for (int j = 0; j < dataGridView1.Rows.Count-1; j++)
+                            {
+                                if (dataGridView1[1, j].Value.ToString()==(date_time)&&dataGridView1[0,j].Value.ToString()==(sn))
+                                {
+                                    dataGridView1.Rows.Remove(dataGridView1.Rows[row]);
+                                    row--;
+                                    break;
+                                }
+                                if (Convert.ToInt32(info_bits[1], 2) > 18)
+                                {
+                                    dataGridView1.Rows.Remove(dataGridView1.Rows[row]);
+                                    row--;
+                                    break;
+                                }
+                            }
+                            
+                            row++;
+                            info_bytes = rdr.ReadBytes(18);
+                        }
+                        
                     }
-                    else
-                    {
-                        dataGridView1[k / 8,15].Value += "0";
-                    }
+                    i +=1;
+                    i = i % 2;
+                    
                 }
                 
             }
@@ -144,7 +221,7 @@ namespace eventlog
                 swOut.WriteLine();
 
                 //write DataGridView rows to csv
-                for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
+                for (int j = 0; j < gridIn.Rows.Count; j++)
                 {
                     if (j > 0)
                     {
@@ -153,7 +230,7 @@ namespace eventlog
 
                     dr = gridIn.Rows[j];
 
-                    for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                    for (int i = 0; i < gridIn.Columns.Count; i++)
                     {
                         if (i > 0)
                         {
