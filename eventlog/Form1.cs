@@ -27,8 +27,8 @@ namespace eventlog
         {
             progressBar1.Style = ProgressBarStyle.Continuous;
             progressBar1.Minimum = 0;
-            progressBar1.Maximum = (int)l/2;
-            progressBar1.Step = 700;
+            progressBar1.Maximum = 1;
+            progressBar1.Step = 1;
             progressBar1.Value = 0;
         }
 
@@ -49,6 +49,14 @@ namespace eventlog
         {
             dataGridView1.Columns.Clear();
             eventlog_parsing();
+            if (progressBar1.Value >= progressBar1.Maximum)
+            {
+                MessageBox.Show("success!");
+                dt = dt.DefaultView.ToTable(true);
+                dataGridView1.DataSource = dt;
+                dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+            }
+            
         }
 
         //setting datatable columns
@@ -134,12 +142,11 @@ namespace eventlog
 
                 while (rdr.BaseStream.Position < l)
                 {
-                    Header_bytes[i] = rdr.ReadByte();
-                    while (Header_bytes[i] == 255)
+                    do
                     {
                         Header_bytes[i] = rdr.ReadByte();
-                    }
-                    if (i > 0 && Char.ConvertFromUtf32(Header_bytes[i - 1]) == "S" && Char.ConvertFromUtf32(Header_bytes[i]) == "N")
+                    } while (Header_bytes[i] == 255) ;
+                        if (i > 0 && Char.ConvertFromUtf32(Header_bytes[i - 1]) == "S" && Char.ConvertFromUtf32(Header_bytes[i]) == "N")
                     {
                         progressBar1.PerformStep();
                         rdr.ReadByte();
@@ -221,10 +228,6 @@ namespace eventlog
                     i = i % 2;
 
                 }rdr.Close();
-                dt = dt.DefaultView.ToTable(true);
-                dataGridView1.DataSource = dt;
-                dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
-
             }
         }
         public void writeCSV(DataGridView gridIn, string outputFile)

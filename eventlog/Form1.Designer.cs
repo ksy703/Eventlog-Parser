@@ -107,6 +107,7 @@
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SerialNumber,
@@ -202,108 +203,126 @@
             this.SerialNumber.HeaderText = "Serial Number";
             this.SerialNumber.Name = "SerialNumber";
             this.SerialNumber.ReadOnly = true;
+            this.SerialNumber.Width = 102;
             // 
             // StartTime
             // 
             this.StartTime.HeaderText = "Start Time";
             this.StartTime.Name = "StartTime";
             this.StartTime.ReadOnly = true;
+            this.StartTime.Width = 81;
             // 
             // EventType
             // 
             this.EventType.HeaderText = "Event Type";
             this.EventType.Name = "EventType";
             this.EventType.ReadOnly = true;
+            this.EventType.Width = 87;
             // 
             // Duration
             // 
             this.Duration.HeaderText = "Duration";
             this.Duration.Name = "Duration";
             this.Duration.ReadOnly = true;
+            this.Duration.Width = 76;
             // 
             // H2S_Status
             // 
             this.H2S_Status.HeaderText = "H2S Status";
             this.H2S_Status.Name = "H2S_Status";
             this.H2S_Status.ReadOnly = true;
+            this.H2S_Status.Width = 84;
             // 
             // H2S_Peak
             // 
             this.H2S_Peak.HeaderText = "H2S Peak (ppm)";
             this.H2S_Peak.Name = "H2S_Peak";
             this.H2S_Peak.ReadOnly = true;
+            this.H2S_Peak.Width = 113;
             // 
             // CO_Status
             // 
             this.CO_Status.HeaderText = "CO Status";
             this.CO_Status.Name = "CO_Status";
             this.CO_Status.ReadOnly = true;
+            this.CO_Status.Width = 80;
             // 
             // CO_Peak
             // 
             this.CO_Peak.HeaderText = "CO Peak (ppm)";
             this.CO_Peak.Name = "CO_Peak";
             this.CO_Peak.ReadOnly = true;
+            this.CO_Peak.Width = 109;
             // 
             // O2_Status
             // 
             this.O2_Status.HeaderText = "O2 Status";
             this.O2_Status.Name = "O2_Status";
             this.O2_Status.ReadOnly = true;
+            this.O2_Status.Width = 78;
             // 
             // O2_Peak
             // 
             this.O2_Peak.HeaderText = "O2 Peak (%Vol)";
             this.O2_Peak.Name = "O2_Peak";
             this.O2_Peak.ReadOnly = true;
+            this.O2_Peak.Width = 109;
             // 
             // LEL_Status
             // 
             this.LEL_Status.HeaderText = "LEL Status";
             this.LEL_Status.Name = "LEL_Status";
             this.LEL_Status.ReadOnly = true;
+            this.LEL_Status.Width = 84;
             // 
             // LEL_Peak
             // 
             this.LEL_Peak.HeaderText = "LEL Peak (%LEL)";
             this.LEL_Peak.Name = "LEL_Peak";
             this.LEL_Peak.ReadOnly = true;
+            this.LEL_Peak.Width = 119;
             // 
             // Column1
             // 
             this.Column1.HeaderText = "Column1";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
+            this.Column1.Width = 80;
             // 
             // Column2
             // 
             this.Column2.HeaderText = "Column2";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
+            this.Column2.Width = 80;
             // 
             // Column3
             // 
             this.Column3.HeaderText = "Column3";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
+            this.Column3.Width = 80;
             // 
             // Column4
             // 
             this.Column4.HeaderText = "Column4";
             this.Column4.Name = "Column4";
             this.Column4.ReadOnly = true;
+            this.Column4.Width = 80;
             // 
             // Column5
             // 
             this.Column5.HeaderText = "Column5";
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
+            this.Column5.Width = 80;
             // 
             // Column6
             // 
             this.Column6.HeaderText = "Column6";
             this.Column6.Name = "Column6";
             this.Column6.ReadOnly = true;
+            this.Column6.Width = 80;
             // 
             // Form1
             // 
