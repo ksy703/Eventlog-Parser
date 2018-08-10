@@ -49,14 +49,10 @@ namespace eventlog
         {
             dataGridView1.Columns.Clear();
             eventlog_parsing();
-            if (progressBar1.Value >= progressBar1.Maximum)
-            {
-                MessageBox.Show("success!");
-                dt = dt.DefaultView.ToTable(true);
-                dataGridView1.DataSource = dt;
-                dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
-            }
-            
+
+            dt = dt.DefaultView.ToTable(true);
+            dataGridView1.DataSource = dt;
+            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
         }
 
         //setting datatable columns
@@ -228,6 +224,11 @@ namespace eventlog
                     i = i % 2;
 
                 }rdr.Close();
+                if (progressBar1.Value >= progressBar1.Maximum)
+                {
+                    MessageBox.Show("success!");
+                    
+                }
             }
         }
         public void writeCSV(DataGridView gridIn, string outputFile)
