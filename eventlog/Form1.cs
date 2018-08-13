@@ -273,7 +273,7 @@ namespace eventlog
                             dr.Cells[i].Value = "";
                         }
                         value = dr.Cells[i].Value.ToString();
-                        //replace comma's with spaces
+                        //replace comma with spaces
                         value = value.Replace(',', ' ');
                         //replace embedded newlines with spaces
                         value = value.Replace(Environment.NewLine, " ");
