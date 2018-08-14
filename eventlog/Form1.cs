@@ -85,7 +85,7 @@ namespace eventlog
             }
         }
 
-        //check status
+        //check status bits
         public string status(string a,string b)
         {
             if (a == "1"&&b =="1")
@@ -103,7 +103,7 @@ namespace eventlog
             }
         }
 
-
+        //file 선택 후 binary stream 읽고 parsing
         public void eventlog_parsing()
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -142,7 +142,8 @@ namespace eventlog
                     {
                         Header_bytes[i] = rdr.ReadByte();
                     } while (Header_bytes[i] == 255) ;
-                        if (i > 0 && Char.ConvertFromUtf32(Header_bytes[i - 1]) == "S" && Char.ConvertFromUtf32(Header_bytes[i]) == "N")
+
+                    if (i > 0 && Char.ConvertFromUtf32(Header_bytes[i - 1]) == "S" && Char.ConvertFromUtf32(Header_bytes[i]) == "N")
                     {
                         progressBar1.PerformStep();
                         rdr.ReadByte();
