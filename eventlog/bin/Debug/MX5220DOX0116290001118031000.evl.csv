@@ -1,0 +1,24 @@
+Serial Number,Start Time,Event Type,Duration,H2S Status,H2S Peak (ppm),CO Status,CO Peak (ppm),O2 Status,O2 Peak (%Vol),LEL Status,LEL Peak (%LEL)
+MA217-020810,2018-01-21 18:28:17,Peak Exposure,12,,0,,0,High,24.3,,0
+MA217-020810,2018-01-21 18:37:23,Peak Exposure,3,,3,,0,High,24.7,,0
+MA217-020810,2018-01-21 18:38:28,Peak Exposure,12,,2,,0,High,25.1,,0
+MA217-020810,2018-01-21 19:23:50,Peak Exposure,117,,0,,0,Low,10.3,,0
+MA217-020810,2018-01-22 20:02:56,Peak Exposure,175,,0,,0,High,25.1,,0
+MA217-020810,2018-01-22 20:09:43,Peak Exposure,104,,0,,0,High,25.1,,0
+MA217-020810,2018-01-22 20:12:08,Peak Exposure,12,,0,,0,High,25.1,,0
+MA217-020810,2018-01-22 20:12:37,Peak Exposure,15,,0,,0,High,25.1,,0
+MA217-020810,2018-01-30 02:20:38,Peak Exposure,24,High,19,Low,100,Low,17.8,High,54
+MA217-020810,2018-01-30 02:28:42,Peak Exposure,100,High,19,Low,92,Low,17.8,High,54
+MA217-020810,2018-01-30 02:36:34,Peak Exposure,46,High,19,Low,94,Low,17.8,High,54
+MA217-020810,2018-01-30 02:48:00,Peak Exposure,69,High,19,High,91,Low,17.8,High,54
+MA217-020810,2018-01-30 02:58:50,Peak Exposure,89,High,19,High,91,Low,17.8,High,54
+MA217-020810,2018-02-05 01:21:04,Peak Exposure,3,,0,,0,Low,18.2,,0
+MA217-020810,2018-02-05 01:26:41,Peak Exposure,12,,0,,0,High,0.5,,0
+MA217-020810,2018-02-05 01:27:19,Peak Exposure,4,,0,,0,High,0.9,,0
+MA217-020810,2018-02-07 22:51:17,Peak Exposure,2,,0,,0,Low,19.5,,0
+MA217-020810,2018-03-26 01:17:09,Peak Exposure,14,,0,,0,High,25.1,,0
+MA217-010799,2018-02-20 15:31:04,Peak Exposure,4,,2,,0,Low,18.6,,0
+MA217-010799,2018-03-02 16:17:15,Peak Exposure,2,,1,,0,Low,18.8,,0
+MA217-020810,2008-01-04 02:32:51,Peak Exposure,14,,3,Low,55,Low,18.8,High,31
+MA217-020810,2008-01-04 02:34:14,Peak Exposure,219,High,18,Low,100,Low,17.7,High,50
+MA217-020810,2008-01-04 06:26:53,Peak Exposure,33,High,19,Low,94,Low,17.8,High,54
