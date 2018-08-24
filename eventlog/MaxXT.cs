@@ -15,12 +15,11 @@ namespace eventlog
     public class MaxXT
     {
         public DataTable dt;
-        public string fileName; long l; public string filePath;
+        public string fileName; long fileLength; public string filePath;
 
         //setting datatable columns
         public void SetUpData()
         {
-
             dt.Columns.Add("Serial Number");
             dt.Columns.Add("Start Time");
             dt.Columns.Add("Event Type");
@@ -60,28 +59,17 @@ namespace eventlog
             int alarm_Status = Convert.ToInt32(bits.Substring(2, 4), 2);
             switch (alarm_Status)
             {
-                case 1:
-                    status += "zeroing "; break;
-                case 2:
-                    status += "spanning "; break;
-                case 3:
-                    status += "Error alarm "; break;
-                case 4:
-                    status += "Error Acknowledged "; break;
-                case 8:
-                    status += "Low alarm "; break;
-                case 9:
-                    status += "Low alarm Acknowledged "; break;
-                case 10:
-                    status += "TWA alarm "; break;
-                case 11:
-                    status += "STEL alarm "; break;
-                case 12:
-                    status += "High alarm "; break;
-                case 13:
-                    status += "Multi alarm "; break;
-                default:
-                    status += ""; break;
+                case 1: status += "zeroing "; break;
+                case 2: status += "spanning "; break;
+                case 3: status += "Error alarm "; break;
+                case 4: status += "Error Acknowledged "; break;
+                case 8: status += "Low alarm "; break;
+                case 9: status += "Low alarm Acknowledged "; break;
+                case 10: status += "TWA alarm "; break;
+                case 11: status += "STEL alarm "; break;
+                case 12: status += "High alarm "; break;
+                case 13: status += "Multi alarm "; break;
+                default: status += ""; break;
             }
             return status;
         }
@@ -93,14 +81,10 @@ namespace eventlog
             float gas;
             switch (precision)
             {
-                case 1:
-                    gas = num / 10; break;
-                case 2:
-                    gas = num / 100; break;
-                case 3:
-                    gas = num / 1000; break;
-                default:
-                    gas = num; break;
+                case 1: gas = num / 10; break;
+                case 2: gas = num / 100; break;
+                case 3: gas = num / 1000; break;
+                default: gas = num; break;
             }
             if (pre.Substring(0).Equals("1"))
             {
@@ -123,117 +107,112 @@ namespace eventlog
                 fileName = ofd.SafeFileName;
                 filePath = ofd.FileName;
                 FileInfo fi = new FileInfo(filePath);
-                l = fi.Length;
-
-
-
-                BinaryReader rdr = new BinaryReader(File.Open(filePath, FileMode.Open));
-
-                byte[] Header_bytes = new byte[2];
-                byte[] info_bytes = new byte[18];
-
-                rdr.BaseStream.Position = 0; int i = 0; string sn;
-
-
-                SetUpData();
-
-                while (rdr.BaseStream.Position < l)
+                fileLength = fi.Length;
+                if (!fileName.Contains("MX"))
                 {
-                    do
-                    {
-                        Header_bytes[i] = rdr.ReadByte();
-                    } while (Header_bytes[i] == 255);
+                    MessageBox.Show("Wrong file!");
+                }
 
-                    if (i > 0 && Char.ConvertFromUtf32(Header_bytes[i - 1]) == "S" && Char.ConvertFromUtf32(Header_bytes[i]) == "N")
+                else
+                {
+                    BinaryReader rdr = new BinaryReader(File.Open(filePath, FileMode.Open));
+
+                    byte[] Header_bytes = new byte[2];
+                    byte[] info_bytes = new byte[18];
+
+                    rdr.BaseStream.Position = 0; int i = 0;
+
+
+                    SetUpData();
+
+                    while (rdr.BaseStream.Position < fileLength)
                     {
-                        
-                        rdr.ReadByte();
-                        byte[] bytes = new byte[80];
-                        sn = ""; int n = 1; int h_cnt = 0; string size = "";
-                        byte s;
-                        //serial number
-                        while (rdr.BaseStream.Position < l)
+                        do
                         {
-                            s = rdr.ReadByte();
-                            if (s != 13)
-                            {
-                                sn += Char.ConvertFromUtf32(s);
-                            }
-                            else if (rdr.ReadByte() == 10)
-                            {
-                                break;
-                            }
-                        }
-                        //header
-                        while (rdr.BaseStream.Position < l)
+                            Header_bytes[i] = rdr.ReadByte();
+                        } while (Header_bytes[i] == 0xff);
+
+                        if (i > 0 && Char.ConvertFromUtf32(Header_bytes[i - 1]) == "S" && Char.ConvertFromUtf32(Header_bytes[i]) == "N")
                         {
-                            s = rdr.ReadByte();
-                            if (h_cnt == 3 && s == 58)
+                            string sn = ""; int h_cnt = 0; string size = "";
+                            byte s;
+
+                            //header
+                            while (rdr.BaseStream.Position < fileLength)
                             {
                                 s = rdr.ReadByte();
-                                while (s != 13)
+                                //serial number
+                                if (h_cnt == 0 && s == 0x3a)
                                 {
-                                    size += Char.ConvertFromUtf32(s);
                                     s = rdr.ReadByte();
+                                    while (s != 13)
+                                    {
+                                        sn += Char.ConvertFromUtf32(s);
+                                        s = rdr.ReadByte();
+                                    }
+                                }
+                                //size
+                                if (h_cnt == 4 && s == 0x3a)
+                                {
+                                    s = rdr.ReadByte();
+                                    while (s != 13)
+                                    {
+                                        size += Char.ConvertFromUtf32(s);
+                                        s = rdr.ReadByte();
+                                    }
+
+                                }
+                                if (s == 0x0d && rdr.ReadByte() == 0x0a)
+                                {
+                                    h_cnt++;
+                                }
+                                if (h_cnt == 5)
+                                {
+                                    break;
+                                }
+                            }
+                            //eventlog parsing
+                            int sz = Convert.ToInt32(size);
+                            info_bytes = rdr.ReadBytes(18);
+                            sz -= 18;
+                            while (info_bytes[0] != 0xff)
+                            {
+                                string[] reverse = new string[18];
+                                string date_bytes;
+                                BitArray bits = new BitArray(info_bytes);
+                                for (int n = 0; n < 144; n++)
+                                {
+                                    reverse[n / 8] = make_bit(bits[n]) + reverse[n / 8];
                                 }
 
-                            }
-                            if (s == 13 && rdr.ReadByte() == 10)
-                            {
-                                h_cnt++;
-                            }
-                            if (h_cnt == 4)
-                            {
-                                break;
-                            }
-                        }
-                        //eventlog parsing
-                        int sz = Convert.ToInt32(size);
-                        info_bytes = rdr.ReadBytes(18);
-                        sz -= 18;
-                        while (info_bytes[0] != 255)
-                        {
-                            string[] reverse = new string[18];
-                            string date_bytes;
-                            BitArray bits = new BitArray(info_bytes);
-                            for (n = 0; n < 144; n++)
-                            {
-                                reverse[n / 8] = make_bit(bits[n]) + reverse[n / 8];
-                            }
+                                date_bytes = reverse[0] + reverse[1] + reverse[2] + reverse[3];
 
-                            date_bytes = reverse[0] + reverse[1] + reverse[2] + reverse[3];
-                            
-                            int hour = Convert.ToInt32(date_bytes.Substring(16, 4), 2);
+                                int hour = Convert.ToInt32(date_bytes.Substring(16, 4), 2);
 
-                            if (date_bytes.Substring(0, 1).Equals("1"))
-                            {
-                                hour += 12;
-                            }
+                                if (date_bytes.Substring(0, 1).Equals("1"))
+                                {
+                                    hour += 12;
+                                }
 
-                            DateTime date_time = new DateTime((2000 + Convert.ToInt32(date_bytes.Substring(1, 6), 2)), Convert.ToInt32(date_bytes.Substring(7, 4), 2),Convert.ToInt32(date_bytes.Substring(11, 5), 2),hour,Convert.ToInt32(date_bytes.Substring(20, 6), 2),Convert.ToInt32(date_bytes.Substring(26, 6), 2));
-                            
+                                DateTime date_time = new DateTime((2000 + Convert.ToInt32(date_bytes.Substring(1, 6), 2)), Convert.ToInt32(date_bytes.Substring(7, 4), 2), Convert.ToInt32(date_bytes.Substring(11, 5), 2), hour, Convert.ToInt32(date_bytes.Substring(20, 6), 2), Convert.ToInt32(date_bytes.Substring(26, 6), 2));
 
-                            dt.Rows.Add(sn, date_time.ToString("yyyy/MM/dd HH:mm:ss"), "Peak Exposure", Convert.ToInt32((reverse[4] + reverse[5]).Substring(1, 15), 2), status(reverse[6]), gas_reading(reverse[6], reverse[7], reverse[8]), status(reverse[9]), gas_reading(reverse[9], reverse[10], reverse[11]), status(reverse[12]), gas_reading(reverse[12], reverse[13], reverse[14]), status(reverse[15]), gas_reading(reverse[15], reverse[16], reverse[17]));
-                            info_bytes[0] = 255;
-                            if (sz >= 18)
-                            {
+                                dt.Rows.Add(sn, date_time.ToString("yyyy/MM/dd HH:mm:ss"), "Peak Exposure", Convert.ToInt32((reverse[4] + reverse[5]).Substring(1, 15), 2), status(reverse[6]), gas_reading(reverse[6], reverse[7], reverse[8]), status(reverse[9]), gas_reading(reverse[9], reverse[10], reverse[11]), status(reverse[12]), gas_reading(reverse[12], reverse[13], reverse[14]), status(reverse[15]), gas_reading(reverse[15], reverse[16], reverse[17]));
+
+                                if (sz < 18)
+                                {
+                                    break;
+                                }
                                 sz -= 18;
                                 info_bytes = rdr.ReadBytes(18);
                             }
                         }
-
-
+                        i += 1;
+                        i = i % 2;
                     }
-
-                    i += 1;
-                    i = i % 2;
-
+                    rdr.Close();
                 }
-                rdr.Close();
                 
             }
-
-
         }
     }
 }

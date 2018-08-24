@@ -1,4 +1,4 @@
 Serial Number,Start Time,Event Type,Duration,H2S Status,H2S Peak (ppm),CO Status,CO Peak (ppm),O2 Status,O2 Peak (%Vol),LEL Status,LEL Peak (%LEL)
-MA217-018353,2018-07-10 11:30:28,Peak Exposure,226,High,25,Low,100,Low,17.8,High,50
-MA217-018353,2018-07-10 11:35:21,Peak Exposure,7,Low,12,Low,84,Low,18.6,High,39
-MA217-018353,2018-07-12 17:01:03,Peak Exposure,98,High,25,Low,100,Low,18,High,50
+MA217-018353,2018-07-10 11:30:28,Peak Exposure,226,High alarm ,25,Low alarm ,100,Low alarm ,17,High alarm ,50
+MA217-018353,2018-07-10 11:35:21,Peak Exposure,7,Low alarm ,12,Low alarm ,84,Low alarm ,18,High alarm ,39
+MA217-018353,2018-07-12 17:01:03,Peak Exposure,98,High alarm ,25,Low alarm ,100,Low alarm ,18,High alarm ,50

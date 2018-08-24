@@ -38,14 +38,13 @@ namespace eventlog
         }
 
 
-        private void MicroClip_import_button_Click(object sender, EventArgs e)
+        public void MicroClip_import_button_Click(object sender, EventArgs e)
         {
             dataGridView2.Columns.Clear();
             mcp.eventlog_parsing_max_xt();
             textBox2.Text = mcp.filePath;
             if (mcp.dt != null)
             {
-                
                 mcp.dt = mcp.dt.DefaultView.ToTable(true);
                 dataGridView2.DataSource = mcp.dt;
                 dataGridView2.EditMode = DataGridViewEditMode.EditProgrammatically;
@@ -59,10 +58,10 @@ namespace eventlog
             {
                 string value = "";
                 DataGridViewRow dr = new DataGridViewRow();
-                StreamWriter swOut = new StreamWriter(outputFile);
+                StreamWriter swOut = new StreamWriter(outputFile,false);
 
                 //write header rows to csv
-                for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                for (int i = 0; i < gridIn.Columns.Count; i++)
                 {
                     if (i > 0)
                     {
@@ -70,7 +69,6 @@ namespace eventlog
                     }
                     swOut.Write(gridIn.Columns[i].HeaderText);
                 }
-
                 swOut.WriteLine();
 
                 //write DataGridView rows to csv
@@ -94,25 +92,29 @@ namespace eventlog
                             dr.Cells[i].Value = "";
                         }
                         value = dr.Cells[i].Value.ToString();
-                        //replace comma with spaces
                         value = value.Replace(',', ' ');
-                        //replace embedded newlines with spaces
                         value = value.Replace(Environment.NewLine, " ");
 
                         swOut.Write(value);
                     }
                 }
                 swOut.Close();
+                MessageBox.Show("Converted successfully to *.csv format");
+            }
+            else
+            {
+                MessageBox.Show("No data to convert");
             }
         }
-        public void button2_Click(object sender, EventArgs e)
+        public void SaveToCSV_button_Click(object sender, EventArgs e)
         {
-            writeCSV(dataGridView1, mxt.fileName + ".csv");
-            MessageBox.Show("Converted successfully to *.csv format");
+            if (tabControl1.SelectedTab==tabPage1)
+            {
+                writeCSV(dataGridView1,mxt.fileName+".csv");
+            }else if (tabControl1.SelectedTab == tabPage2)
+            {
+                writeCSV(dataGridView2,mcp.fileName + ".csv");
+            }
         }
-
     }
-
-
-
 }

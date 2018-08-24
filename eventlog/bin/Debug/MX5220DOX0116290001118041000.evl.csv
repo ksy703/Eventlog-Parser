@@ -1,0 +1,55 @@
+Serial Number,Start Time,Event Type,Duration,H2S Status,H2S Peak (ppm),CO Status,CO Peak (ppm),O2 Status,O2 Peak (%Vol),LEL Status,LEL Peak (%LEL)
+MA217-020810,2018-01-21 18:28:17,Peak Exposure,12,,0,,0,High alarm ,24,,0
+MA217-020810,2018-01-21 18:37:23,Peak Exposure,3,,3,,0,High alarm ,24,,0
+MA217-020810,2018-01-21 18:38:28,Peak Exposure,12,,2,,0,High alarm ,6553,,0
+MA217-020810,2018-01-21 19:23:50,Peak Exposure,117,,0,,0,Low alarm ,10,,0
+MA217-020810,2018-01-22 20:02:56,Peak Exposure,175,,0,,0,High alarm ,6553,,0
+MA217-020810,2018-01-22 20:09:43,Peak Exposure,104,,0,,0,High alarm ,6553,,0
+MA217-020810,2018-01-22 20:12:08,Peak Exposure,12,,0,,0,High alarm ,6553,,0
+MA217-020810,2018-01-22 20:12:37,Peak Exposure,15,,0,,0,High alarm ,6553,,0
+MA217-020810,2018-01-30 02:20:38,Peak Exposure,280,High alarm ,19,Low alarm ,100,Low alarm ,17,High alarm ,54
+MA217-020810,2018-01-30 02:28:42,Peak Exposure,356,High alarm ,19,Low alarm ,92,Low alarm ,17,High alarm ,54
+MA217-020810,2018-01-30 02:36:34,Peak Exposure,302,High alarm ,19,Low alarm ,94,Low alarm ,17,High alarm ,54
+MA217-020810,2018-01-30 02:48:00,Peak Exposure,325,High alarm ,19,Multi alarm ,91,Low alarm ,17,High alarm ,54
+MA217-020810,2018-01-30 02:58:50,Peak Exposure,345,High alarm ,19,Multi alarm ,91,Low alarm ,17,High alarm ,54
+MA217-020810,2018-02-05 01:21:04,Peak Exposure,3,,0,,0,Low alarm ,18,,0
+MA217-020810,2018-02-05 01:26:41,Peak Exposure,12,,0,,0,High alarm ,26,,0
+MA217-020810,2018-02-05 01:27:19,Peak Exposure,4,,0,,0,High alarm ,26,,0
+MA217-020810,2018-02-07 22:51:17,Peak Exposure,2,,0,,0,Low alarm ,19,,0
+MA217-020810,2018-03-26 01:17:09,Peak Exposure,14,,0,,0,High alarm ,6553,,0
+MA217-020810,2008-01-04 02:32:51,Peak Exposure,14,,3,Low alarm ,55,Low alarm ,18,High alarm ,31
+MA217-020810,2008-01-04 02:34:14,Peak Exposure,219,High alarm ,18,Low alarm ,100,Low alarm ,17,High alarm ,50
+MA217-020810,2008-01-04 06:26:53,Peak Exposure,289,High alarm ,19,Low alarm ,94,Low alarm ,17,High alarm ,54
+MA217-020810,2008-01-04 07:32:35,Peak Exposure,287,High alarm ,19,Low alarm ,90,Low alarm ,18,High alarm ,54
+MA217-018352,2017-09-19 22:04:22,Peak Exposure,221,,0,,0,,20,Low alarm ,13
+MA217-018352,2017-09-20 04:40:07,Peak Exposure,1,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:40:25,Peak Exposure,9,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:42:01,Peak Exposure,17,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:43:16,Peak Exposure,50,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:44:25,Peak Exposure,1,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:44:48,Peak Exposure,2,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:45:17,Peak Exposure,2,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:45:35,Peak Exposure,1,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:45:53,Peak Exposure,12,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:46:30,Peak Exposure,17,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:47:06,Peak Exposure,6,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:47:31,Peak Exposure,219,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:51:53,Peak Exposure,1,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-09-20 04:52:10,Peak Exposure,951,,0,,0,,22,High alarm ,65531
+MA217-018352,2017-09-24 18:50:12,Peak Exposure,1,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-10-16 00:41:33,Peak Exposure,17,,0,,0,,20,High alarm ,65531
+MA217-018352,2017-11-26 19:58:21,Peak Exposure,2,,0,,0,High alarm ,28,,0
+MA217-018352,2017-11-26 19:58:44,Peak Exposure,4,,0,,0,High alarm ,6553,,0
+MA217-010799,2018-02-20 15:31:04,Peak Exposure,4,,2,,0,Low alarm ,18,,0
+MA217-010799,2018-03-02 16:17:15,Peak Exposure,2,,1,,0,Low alarm ,18,,0
+MA217-010799,2018-03-30 18:41:19,Peak Exposure,3,,0,,0,Low alarm ,18,,0
+MA217-010799,2018-03-30 19:41:36,Peak Exposure,5,,0,,0,Low alarm ,17,,0
+MA217-024439,2018-01-22 19:43:32,Peak Exposure,1,,0,,0,Low alarm ,19,,0
+MA217-024439,2018-01-22 19:43:52,Peak Exposure,3,,0,,0,Low alarm ,18,,0
+MA217-024439,2018-01-22 19:45:21,Peak Exposure,3,,0,,0,Low alarm ,18,,0
+MA217-024439,2018-01-29 02:13:09,Peak Exposure,2,,0,,0,Low alarm ,19,,0
+MA217-024439,2018-02-07 20:42:48,Peak Exposure,2,,0,,0,High alarm ,6553,,0
+MA217-024439,2018-02-07 20:43:50,Peak Exposure,2,,0,,0,High alarm ,23,,0
+MA217-024439,2018-02-27 03:19:13,Peak Exposure,4,,0,,0,Low alarm ,18,,0
+MA217-024439,2018-03-22 23:49:59,Peak Exposure,2,,0,,0,Low alarm ,19,,0
+MA217-020810,2008-01-10 07:37:10,Peak Exposure,40,,0,Low alarm ,56,Low alarm ,7,,0
